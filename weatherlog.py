@@ -2,6 +2,8 @@
 # Weather information is read by ssh response from weather station.
 from config import Configuration
 
+from datetime import datetime
+
 import time
 import csv
 import os
@@ -36,8 +38,9 @@ while True:
         fieldnames[2]: line[2],
         fieldnames[3]: line[3],
     }
-
-    logfile = 'weatherlog.csv'
+    
+    current_date = datetime.now().strftime('%Y-%m-%d')
+    logfile = 'log_weather_' + current_date + '.csv'
 
     if os.path.isfile(logfile):
         with open(logfile, 'a', newline='') as csvfile:

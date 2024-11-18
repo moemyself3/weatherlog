@@ -9,5 +9,5 @@ python -m weatherlog
 ## suggestion on reading log real-time
 Users can monitor the .csv file real-time using `tail`
 ```
-tail -f weatherlog.csv
+tail -f log_weather_*.csv
 ```

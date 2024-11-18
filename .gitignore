@@ -1,6 +1,6 @@
 # Project specific files
 config.py
-weatherlog.csv
+log_weather_*.csv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
