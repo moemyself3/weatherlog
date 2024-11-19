@@ -27,29 +27,33 @@ while True:
     
     # parse output
     # example output: '2024-10-20T05:11:55 , 16.8 , 7.4 , 755.5\r\n' 
-    line = stdout.readline()
-    line = line.strip().split(' , ')
+    try:
+        line = stdout.readline()
+        line = line.strip().split(' , ')
 
-    fieldnames = ['time_UTC', 'temp_C', 'humidity', 'pressure_HPa']
+        fieldnames = ['time_UTC', 'temp_C', 'humidity', 'pressure_HPa']
 
-    data = {
-        fieldnames[0]: line[0],
-        fieldnames[1]: line[1],
-        fieldnames[2]: line[2],
-        fieldnames[3]: line[3],
-    }
-    
-    current_date = datetime.now().strftime('%Y-%m-%d')
-    logfile = 'log_weather_' + current_date + '.csv'
+        data = {
+            fieldnames[0]: line[0],
+            fieldnames[1]: line[1],
+            fieldnames[2]: line[2],
+            fieldnames[3]: line[3],
+        }
+        
+        current_date = datetime.now().strftime('%Y-%m-%d')
+        logfile = 'log_weather_' + current_date + '.csv'
 
-    if os.path.isfile(logfile):
-        with open(logfile, 'a', newline='') as csvfile:
-            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-            writer.writerow(data)
-    else:
-        with open(logfile, 'w', newline='') as csvfile:
-            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-            writer.writeheader() 
-            writer.writerow(data)
-           
-    time.sleep(poll_time)
+        if os.path.isfile(logfile):
+            with open(logfile, 'a', newline='') as csvfile:
+                writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+                writer.writerow(data)
+        else:
+            with open(logfile, 'w', newline='') as csvfile:
+                writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+                writer.writeheader() 
+                writer.writerow(data)
+               
+        time.sleep(poll_time)
+    except UnicodeDecodeError as err:
+        print("UnicodeDecodeError: ", err)
+        print("Trying again...")
